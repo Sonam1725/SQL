@@ -1,0 +1,49 @@
+/* Create table about the people and what they do here */
+Create Table Athlete
+(id integer Primary key, name text, sport_id integer, team text, state_id integer, years_played integer, year_drafted integer);
+Insert into Athlete (id, name, sport_id, team, state_id, years_played, year_drafted) 
+Values (1, "Tom Brady", 1,"New England Patriots", 1, 22, 2000),
+(2, "Eli Manning", 1, "New York Giants", 2, 16, 2004),
+(3, "Peyton Manning", 1,"Indianapolis Colts", 3, 18, 1998),
+(4, "Lebron James", 2,"Cleveland Cavaliers", 4, 19, 2003),
+(5, "Jayson Tatum", 2, "Boston Celtics", 1, 5, 2017),
+(6, "RJ Barrett", 2, "New York Knicks", 2, 3, 2019);
+
+Create Table Sports
+(id integer primary key, name text);
+Insert into Sports values (1, "Football"), (2, "Basketball");
+
+Create Table State 
+(id integer primary key, name text);
+Insert into State values (1, "Massachusetts"),
+(2, "New York"), (3, "Indiana"), (4, "Ohio");
+
+--what sport did each athlete played?
+Select a.name, s.name
+From Athlete as a
+join Sports as s
+on a.sport_id=s.id;
+
+--How many athletes played in each states?
+Select s.name, Count(a.name) as total_amount
+From Athlete as a 
+join State as s
+on s.id=a.state_id
+Group by s.name;
+
+-- How many athletes played each sports?
+Select s.name, count(*) as total_amount
+From Athlete as a
+join Sports as s
+on s.id=a.sport_id
+join State as st
+on st.id=a.state_id
+Group by s.name;
+
+--To view all the info together through joins
+Select a.name,s.name, a.team, st.name, a.years_played, a.year_drafted
+From Athlete as a
+join Sports as s
+on s.id=a.sport_id
+join State as st
+on st.id=a.state_id;
